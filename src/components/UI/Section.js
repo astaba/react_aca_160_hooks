@@ -1,7 +1,7 @@
-import classes from './Section.module.css';
+import classes from "./Section.module.css";
 
-const Section = (props) => {
-  return <section className={classes.section}>{props.children}</section>;
+const Section = ({ children }) => {
+  return <div className={classes.section}>{children}</div>;
 };
 
 export default Section;

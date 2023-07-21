@@ -1,24 +1,21 @@
-import { useRef } from 'react';
+import { useRef } from "react";
+import classes from "./TaskForm.module.css";
 
-import classes from './TaskForm.module.css';
+const TaskForm = ({ onCommit, onLoading }) => {
+  const inputRef = useRef();
 
-const TaskForm = (props) => {
-  const taskInputRef = useRef();
-
-  const submitHandler = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-
-    const enteredValue = taskInputRef.current.value;
-
-    if (enteredValue.trim().length > 0) {
-      props.onEnterTask(enteredValue);
+    const inputValue = inputRef.current.value.trim();
+    if (inputValue.length > 0) {
+      onCommit(inputValue);
+      inputRef.current.value = '';
     }
   };
-
   return (
-    <form className={classes.form} onSubmit={submitHandler}>
-      <input type='text' ref={taskInputRef} />
-      <button>{props.loading ? 'Sending...' : 'Add Task'}</button>
+    <form className={classes.form} onSubmit={handleSubmit}>
+      <input type="text" ref={inputRef} />
+      <button>{!onLoading ? "Add task" : "Sending..."}</button>
     </form>
   );
 };
