@@ -3,11 +3,11 @@ import TaskItem from "./TaskItem.js";
 import Section from "../UI/Section.js";
 
 const Tasks = ({ error, tasks, onFetchTasks, onLoading }) => {
-  const SWITCHER = (() => {
-    if (onLoading) return "LOADING";
+  const switcher = (() => {
+    if (onLoading) return "LOADING_UI";
     else if (error) return "TRY_AGAIN";
     else if (tasks.length > 0) return "TASK_LIST";
-    return "DEFAULT";
+    return "DEFAULT_UI";
   })();
 
   return (
@@ -15,8 +15,8 @@ const Tasks = ({ error, tasks, onFetchTasks, onLoading }) => {
       <div className={classes.container}>
         {
           {
-            DEFAULT: <h2>No task found. Start adding some!</h2>,
-            LOADING: "Loading tasks...",
+            DEFAULT_UI: <h2>No task found. Start adding some!</h2>,
+            LOADING_UI: "Loading tasks...",
             TRY_AGAIN: <button onClick={onFetchTasks}>Try again</button>,
             TASK_LIST: (
               <ul>
@@ -25,7 +25,7 @@ const Tasks = ({ error, tasks, onFetchTasks, onLoading }) => {
                 ))}
               </ul>
             ),
-          }[SWITCHER]
+          }[switcher]
         }
       </div>
     </Section>

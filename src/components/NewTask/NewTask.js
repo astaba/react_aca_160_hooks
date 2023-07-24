@@ -1,17 +1,30 @@
 import React from "react";
 import Section from "../UI/Section.js";
 import TaskForm from "./TaskForm.js";
-import useFetchTasks from "../../hooks/useFetchTasks.js";
-
-const url = "https://custom-hooks-bada2-default-rtdb.firebaseio.com/tasks.json";
+import useHttp from "../../hooks/useHttp.js";
 
 const NewTask = ({ onAddTask }) => {
-  const { isLoading, error, handleHttpRequest } = useFetchTasks(url);
+  const {
+    indicators: { isLoading, error },
+    sendRequest: postTask,
+  } = useHttp();
 
-  const commitNewTask = async (task) => {
-    const data = await handleHttpRequest(task);
-    // console.log(data)
-    if (data?.name) onAddTask({ id: data.name, text: task });
+  const commitNewTask = (task) => {
+    const request = new Request(
+      "https://custom-hooks-bada2-default-rtdb.firebaseio.com/tasks.json",
+      {
+        method: "POST",
+        body: JSON.stringify({ text: task }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const updateTask = (data) => {
+      // console.log(data);
+      onAddTask({ id: data.name, text: task });
+    };
+    postTask(request, updateTask);
   };
 
   return (
